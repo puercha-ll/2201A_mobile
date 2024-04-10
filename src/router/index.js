@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const routes = [
   {
@@ -21,6 +22,16 @@ const routes = [
         name: 'user',
         component: () => import('../views/user/index.vue'),
       },
+      {
+        path: '/menu',
+        name: 'menu',
+        component: () => import('../views/menu/index.vue'),
+      },
+      {
+        path: '/other',
+        name: 'other',
+        component: () => import('../views/other/index.vue'),
+      },
     ]
   },
   {
@@ -37,4 +48,20 @@ const router = createRouter({
   routes
 })
 
+// 导航守卫
+router.beforeEach((to, from, next) => {
+  if (!localStorage.getItem("token")) {
+    if (to.path == "/login") {
+      next();
+    } else {
+      ElMessage.error('请重新登录')
+      next("/login");
+    }
+  } else {
+    if (to.path == "/login") {
+      next("/home");
+    }
+  }
+  next();
+});
 export default router
