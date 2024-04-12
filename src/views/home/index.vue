@@ -13,7 +13,8 @@
             </div>
         </div>
         <div class="container">
-            <el-menu :router="true" :default-active="$route.path">
+            <el-menu class="menu" background-color="#1d1e1f" text-color="#fff" active-text-color="#ffd04b"
+                :router="true" :default-active="$route.path">
                 <el-menu-item index="/role">
                     <el-icon>
                         <HelpFilled />
@@ -75,7 +76,8 @@ export default {
 <style scoped lang="scss">
 .top {
     width: 100%;
-    background: #fff;
+    // background: #fff;
+    background: #1d1e1f;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -111,12 +113,17 @@ export default {
 .container {
     position: fixed;
     top: 60px;
+
     left: 0;
     bottom: 50px;
     height: 100vh;
     overflow-y: auto;
     background: #fff;
     width: 180px;
+
+    .menu {
+        height: 100%;
+    }
 
 }
 

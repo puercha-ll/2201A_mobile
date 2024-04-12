@@ -18,6 +18,20 @@ const { list } = mock.mock({
   ]
 })
 
+const { tabList } = mock.mock({
+  "tabList|60": [
+    {
+      "id": "@id",
+      'title': '@ctitle(15,25)',
+      "desc": "@cparagraph(1,12)",
+      "name": "@cname",
+      "viewnum|1-100": 1,
+      "likesnum|1-1000": 1,
+      "image": "@image(100x100,@color)",
+    }
+  ]
+})
+
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
@@ -47,9 +61,9 @@ module.exports = defineConfig({
           })
         }
       })
+      // 角色列表
       app.get('/api/list', (req, res) => {
         const { pagination, pageNum, name, identity, status } = req.query;
-        // data分页
         const arr = list.filter(item => {
           return (
             (name ? item.name.indexOf(name) !== -1 : true) &&
@@ -74,7 +88,7 @@ module.exports = defineConfig({
           status: true,
           createtime: mock.Random.datetime()
         }
-        list.push(newData)
+        list.unshift(newData)
         res.send({
           code: 200,
           data: newData
@@ -105,6 +119,15 @@ module.exports = defineConfig({
             data: list
           })
         }
+      })
+      // 综合列表
+      app.get('/api/tabList', (req, res) => {
+        const { pagination, pageNum } = req.query;
+        res.send({
+          code: 200,
+          data: tabList.slice((pagination - 1) * pageNum, pagination * pageNum),
+          total: tabList.length
+        })
       })
       return mid
     }

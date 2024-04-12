@@ -23,6 +23,11 @@ const routes = [
         component: () => import('../views/user/index.vue'),
       },
       {
+        path: '/user/detail/:id',
+        name: 'userDetail',
+        component: () => import('../views/user/detail.vue'),
+      },
+      {
         path: '/menu',
         name: 'menu',
         component: () => import('../views/menu/index.vue'),
