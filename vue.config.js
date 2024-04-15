@@ -2,7 +2,8 @@ const { defineConfig } = require('@vue/cli-service')
 const mock = require('mockjs')
 const bodyParser = require('body-parser') // 转json中间件
 const users = [
-  { username: 'admin', password: '0000' },
+  { username: 'admin', password: '0000', role: 'admin' },
+  { username: '张三', password: '0000', role: 'user' },
 
 ]
 const { list } = mock.mock({
@@ -46,7 +47,8 @@ module.exports = defineConfig({
           if (code == '1234') {
             res.send({
               code: 200,
-              token: 'yijingdengluchenggong'
+              token: 'yijingdengluchenggong',
+              role: user.role
             })
           } else {
             res.send({

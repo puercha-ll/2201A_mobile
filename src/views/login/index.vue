@@ -29,6 +29,7 @@
 <script>
 import request from '@/utils/request.js'
 import { ElMessage } from 'element-plus'
+import { mapMutations } from 'vuex'
 export default {
     data() {
         return {
@@ -52,6 +53,7 @@ export default {
         },
     },
     methods: {
+        ...mapMutations(['setRole']),
         onLogin() {
             request.post('/login', { username: this.username, password: this.password, code: this.code }).then(res => {
                 console.log(res, 'res')
@@ -64,6 +66,7 @@ export default {
                     // 存储token
                     localStorage.setItem('token', res.data.token);
                     localStorage.setItem('username', this.username);
+                    this.setRole(res.data.role)
                     // 跳转到首页
                     this.$router.replace('/home'); // 3. 实现跳转
                 } else {
@@ -116,7 +119,7 @@ export default {
     .box {
         width: 480px;
         height: 340px;
-        background: #fff;
+        background: #424141;
         position: absolute;
         top: 60%;
         left: 70%;

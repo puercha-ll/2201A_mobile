@@ -34,12 +34,16 @@
             </div>
             <el-table :data="tableData" border style="width: 100%" show-overflow-tooltip>
                 <el-table-column prop="id" label="角色编号" width="180" />
-                <el-table-column prop="name" label="角色名称" width="180" />
-                <el-table-column prop="identity" label="角色标识" />
-                <el-table-column prop="status" label="状态" />
+                <el-table-column prop="name" label="角色名称" width="90" />
+                <el-table-column prop="identity" label="角色标识" width="120" />
+                <el-table-column prop="status" label="状态" width="110">
+                    <template #default="{ row }">
+                        <el-switch v-model="row.status" />
+                    </template>
+                </el-table-column>
                 <el-table-column prop="remark" label="备注" />
-                <el-table-column prop="createtime" label="创建时间" />
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column prop="createtime" label="创建时间" width="170" />
+                <el-table-column fixed="right" label="操作" width="110">
                     <template #default="{ row }">
                         <el-button link type="primary" size="small" @click="onEdit(row)">修改</el-button>
                         <el-popconfirm title="你确认删除吗?" @confirm="onConfirm(row)">
@@ -104,6 +108,7 @@ export default {
                 ],
                 identity: [
                     { required: true, message: '请输入角色标识', trigger: 'blur' },
+                    { pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号', trigger: 'blur' },
                 ],
             },
             flag: true,

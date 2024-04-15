@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="container">
-            <el-menu class="menu" background-color="#1d1e1f" text-color="#fff" active-text-color="#ffd04b"
+            <!-- <el-menu class="menu" background-color="#1d1e1f" text-color="#fff" active-text-color="#ffd04b"
                 :router="true" :default-active="$route.path">
                 <el-menu-item index="/role">
                     <el-icon>
@@ -51,6 +51,37 @@
                         </template>
                     </el-menu-item>
                 </el-sub-menu>
+            </el-menu> -->
+            <el-menu class="menu" background-color="#1d1e1f" text-color="#fff" active-text-color="#ffd04b"
+                :router="true" :default-active="$route.path">
+                <div v-for="item in menuList" :key="item.id">
+
+                    <el-menu-item v-if="item.children.length == 0" :index="item.router">
+                        <el-icon>
+                            <component :is="item.icon"></component>
+                        </el-icon>
+                        <span>{{ item.title }}</span>
+                    </el-menu-item>
+                    <!-- 菜单权限 -->
+                    <template v-if="role == 'admin'">
+                        <el-sub-menu v-if="item.children.length > 0" :index="item.id">
+                            <template #title>
+                                <el-icon>
+                                    <component :is="item.icon"></component>
+                                </el-icon>
+                                <span>{{ item.title }}</span>
+                            </template>
+                            <div v-for="i in item.children" :key="i.id">
+                                <el-menu-item :index="i.router"> <template #title>
+                                        <el-icon>
+                                            <component :is="i.icon"></component>
+                                        </el-icon>
+                                        <span>{{ i.title }}</span>
+                                    </template></el-menu-item>
+                            </div>
+                        </el-sub-menu>
+                    </template>
+                </div>
             </el-menu>
         </div>
         <div class="main">
@@ -59,11 +90,26 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data() {
         return {
-            username: localStorage.getItem('username')
+            username: localStorage.getItem('username'),
+            menuList: [
+                { id: '1', icon: 'HelpFilled', title: '角色管理', router: '/role', children: [] },
+                { id: '2', icon: 'UserFilled', title: '用户列表', router: '/user', children: [] },
+                {
+                    id: '3', icon: 'Tools', title: '菜单管理', router: '/menu',
+                    children: [
+                        { id: '3-1', icon: 'Tools', title: '菜单管理', router: '/menu' },
+                        { id: '3-2', icon: 'Folder', title: '其他页面', router: '/other' }
+                    ]
+                },
+            ]
         }
+    },
+    computed: {
+        ...mapState(['role'])
     },
     methods: {
         onConfirm() {
